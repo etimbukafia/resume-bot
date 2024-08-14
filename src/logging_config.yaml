@@ -1,0 +1,40 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: standard
+    stream: ext://sys.stdout
+
+  app_file_handler:
+    class: logging.FileHandler
+    level: INFO
+    formatter: standard
+    filename: app.log
+
+  task_scheduler_handler:
+    class: logging.FileHandler
+    level: DEBUG
+    formatter: standard
+    filename: scheduler.log
+
+loggers:
+  app_logger:
+    level: INFO
+    handlers: [console, app_file_handler]
+    propagate: no
+
+  task_scheduler_logger:
+    level: INFO
+    handlers: [task_scheduler_handler]
+    propagate: no
+
+root:
+  level: DEBUG
+  handlers: [console]
