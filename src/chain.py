@@ -5,13 +5,9 @@ from langchain_core.runnables import (
     RunnableParallel,
     RunnablePassthrough,
 )
-import asyncio
 import io
-from config import Configs
 
-configs = Configs()
-
-async def retrieval_chain(vector_store, llm):
+async def retrieval_chain(vector_store, llm, query):
     try:
         retriever = vector_store.as_retriever()
 
@@ -36,28 +32,9 @@ async def retrieval_chain(vector_store, llm):
             | StrOutputParser()
         )
 
-        query = "Which of the applicants worked as a Data Entry Clerk"
         answer = await rag_chain.ainvoke(query)
-        print(answer)
+        return answer
     
     except Exception as e:
         print(f"Error in retrieval_chain: {e}")
-
-async def main():
-    try:
-        # Initialize asynchronously
-        await configs.initialize()
-    
-        vector_store = configs.get_vector_store()
-        llm = configs.get_llm()
-
-        # Call the synchronous function
-        await retrieval_chain(vector_store, llm)
-    
-    except Exception as e:
-        print(f"Error in main: {e}")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
 
