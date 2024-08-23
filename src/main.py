@@ -8,7 +8,7 @@ from fastapi.responses import StreamingResponse
 from models import QueryRequest
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
-from chain import retrieval_chain
+from chain import retrieval_chain, pdf_retriever
 from config import Configs
 
 configs = Configs()
@@ -25,17 +25,21 @@ app.add_middleware(
 
 vector_store = None
 llm = None
+resume_collection = None
 
 
 @app.on_event("startup")
 async def startup_event():
-    global vector_store, llm
+    global vector_store, llm, resume_collection
 
     # Initialize the database connection
     await configs.initialize()
 
     vector_store = configs.get_vector_store()
     print("Vector store initialized")
+
+    resume_collection = configs.get_resume_collection()
+    print("vector collection initialized")
 
     #Load your LLM
     llm = configs.get_llm()
@@ -49,8 +53,8 @@ async def shutdown_db_client():
 @app.get('/chat')
 async def resume_chat(query: QueryRequest):
     try:
-
-        answer = await retrieval_chain(vector_store, llm, query.query)
+        #answer = await retrieval_chain(vector_store, llm, query.query)
+        answer = await pdf_retriever(vector_store, query.query, resume_collection)
         if answer is None:
             raise HTTPException(status_code=500, detail="Failed to retrieve answer")
         return {answer}

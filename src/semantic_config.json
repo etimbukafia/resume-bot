@@ -1,0 +1,17 @@
+{
+    "name": "resume_inquiries",
+    "score_threshold": 0.7,
+    "utterances": [
+      "Can you find applicants with experience in data science?",
+      "I'm looking for candidates with a strong background in machine learning.",
+      "What resumes match the keyword 'Python developer'?",
+      "Do you have any recommendations for candidates with over 5 years of experience?",
+      "Can you show me resumes of applicants who worked as a software engineer?",
+      "I'm interested in resumes with experience in computer vision. What do you have?",
+      "Which applicants have project management skills?",
+      "Can you find candidates who have worked in the finance sector?",
+      "Show me resumes of applicants proficient in natural language processing.",
+      "Do you have resumes with expertise in cloud computing?"
+    ]
+}
+  
