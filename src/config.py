@@ -1,9 +1,7 @@
 from db_connect import Database
 from langchain_huggingface import HuggingFaceEmbeddings
-import os
 from dotenv import load_dotenv
 from langchain_fireworks import ChatFireworks
-import asyncio
 from semantic_router.encoders import HuggingFaceEncoder
 
 load_dotenv()
@@ -15,10 +13,11 @@ class Configs:
         self.vector_store = None
         self.encoder = None
         self.resume_collection = None
+        self.vector_collection = None
 
     async def initialize(self):
         self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-        self.resume_collection, _, self.vector_store = await Database.connect(self.embeddings)
+        self.resume_collection, self.vector_collection, self.vector_store = await Database.connect(self.embeddings)
         self.llm = ChatFireworks(
             model="accounts/fireworks/models/mixtral-8x7b-instruct",
             temperature=0.7,
@@ -39,6 +38,9 @@ class Configs:
     
     def get_resume_collection(self):
         return self.resume_collection
+    
+    def get_vector_collection(self):
+        return self.vector_collection
     
     def get_encoder(self):
         return self.encoder

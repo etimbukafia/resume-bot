@@ -1,10 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
-#from sentence_transformers import SentenceTransformer
-from typing import List
 from db_connect import Database
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import StreamingResponse
 from models import QueryRequest
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware

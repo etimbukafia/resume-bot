@@ -8,7 +8,6 @@ from langchain_core.runnables import (
 import io
 from bson import ObjectId
 import os
-import pprint
 
 
 async def get_retriever(vector_store, k):

@@ -1,27 +1,21 @@
-from pymongo import MongoClient
-from sentence_transformers import SentenceTransformer
 import pymupdf
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-import os
 from dotenv import load_dotenv
 load_dotenv()
 from bson import ObjectId
-from utils import fireworks_llm
 from langchain_core.documents import Document
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
+from config import Configs
 
+configs = Configs()
 
-
-model = SentenceTransformer('all-MiniLM-L6-v2')
-llm = fireworks_llm
-
-uri = os.environ.get("MONGO_URI")
-client = MongoClient(uri)
-db = client["resumeDB"]
-collection = db["resumeCollection"]
-vector_index_collection = db["resume_vector_index"]
-#ATLAS_VECTOR_SEARCH_INDEX_NAME = "resume_vector_index"
+#model = SentenceTransformer('all-MiniLM-L6-v2')
+#llm = fireworks_llm
+model = configs.get_embeddings()
+llm = configs.get_llm()
+collection = configs.get_resume_collection()
+vector_index_collection = configs.get_vector_collection()
 
 def preprocess_resume(resume):
     """

@@ -1,5 +1,4 @@
 from fastapi import FastAPI, UploadFile, HTTPException, File, Form
-from pydantic import BaseModel, Field
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
